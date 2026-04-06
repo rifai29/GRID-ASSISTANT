@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Kolase Foto</title>
+    <title>GRID</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap"
       rel="stylesheet"
@@ -18,11 +18,11 @@
       }
 
       :root {
-        --bg: #eeeeed;
-        --surface: #e5e5e3;
-        --surface2: #e0e0de;
-        --shadow-out: 5px 5px 13px #d0d0ce, -3px -3px 9px #ffffff;
-        --shadow-in: inset 3px 3px 7px #d0d0ce, inset -2px -2px 5px #ffffff;
+        --bg: #f2f2f0;
+        --surface: #ffffff;
+        --surface2: #f5f5f4;
+        --shadow-out: none;
+        --shadow-in: none;
         --accent: #e8632a;
         --text: #1a1a1a;
         --text2: #555;
@@ -55,7 +55,7 @@
         display: flex;
         flex-direction: column;
         overflow: hidden;
-        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.06);
+
         z-index: 2;
       }
       .sidebar-header {
@@ -76,7 +76,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 3px 3px 10px rgba(232, 99, 42, 0.35);
+
         flex-shrink: 0;
       }
       .brand-name {
@@ -94,10 +94,10 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        background: #e8e8e6;
+        background: #f0f0ee;
         border-radius: 12px;
         padding: 9px 14px;
-        box-shadow: var(--shadow-in);
+
         margin-bottom: 14px;
       }
       .search-box svg {
@@ -131,14 +131,11 @@
         color: #fff;
       }
       .pill.inactive {
-        background: #ddddd9;
+        background: #ebebea;
         color: #888;
-        box-shadow:
-          2px 2px 5px #ccc,
-          -1px -1px 4px #fff;
       }
       .pill.inactive:hover {
-        background: #d0d0ce;
+        background: #e0e0de;
       }
 
       /* LAYOUT GRID */
@@ -154,7 +151,7 @@
         width: 4px;
       }
       .sidebar-scroll::-webkit-scrollbar-thumb {
-        background: #d0d0ce;
+        background: #e0e0de;
         border-radius: 2px;
       }
 
@@ -190,11 +187,9 @@
         background: var(--surface2);
         border-radius: 14px;
         padding: 9px;
-        box-shadow: var(--shadow-out);
+
         cursor: pointer;
-        transition:
-          transform 0.15s,
-          box-shadow 0.15s;
+        transition: transform 0.15s;
         border: 2px solid transparent;
       }
       .card:hover {
@@ -202,16 +197,13 @@
       }
       .card.active {
         border-color: #2a2a2a;
-        box-shadow:
-          4px 4px 12px #c8c8c6,
-          -2px -2px 8px #fff;
       }
       .card-thumb {
         width: 100%;
         aspect-ratio: 1;
         border-radius: 9px;
         overflow: hidden;
-        background: #ddddd8;
+        background: #eaeae8;
         margin-bottom: 6px;
       }
       .card-thumb svg {
@@ -241,30 +233,70 @@
         background: var(--bg);
       }
 
-      /* TOPBAR (desktop) */
+      /* TOPBAR */
       .topbar {
         display: flex;
         align-items: center;
-        padding: 16px 28px;
-        border-bottom: 1px solid #d8d8d6;
-        gap: 12px;
+        padding: 12px 16px;
+        border-bottom: 1px solid #e8e8e6;
+        gap: 10px;
         flex-shrink: 0;
         background: var(--surface);
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
       }
       .topbar-title {
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 800;
         color: var(--text);
         flex: 1;
       }
+      .topbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
       .slot-badge {
-        font-size: 12px;
-        padding: 4px 12px;
+        font-size: 11px;
+        padding: 3px 10px;
         border-radius: 20px;
         background: #fff2e8;
         color: var(--accent);
         font-weight: 800;
+        margin-right: 4px;
+      }
+      .topbar-icon-btn {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background: none;
+        cursor: pointer;
+        border-radius: 10px;
+        color: #666;
+        transition:
+          background 0.12s,
+          color 0.12s;
+      }
+      .topbar-icon-btn:hover {
+        background: #f0f0ee;
+      }
+      .topbar-icon-btn.danger {
+        color: #c0392b;
+      }
+      .topbar-icon-btn.danger:hover {
+        background: #fff0ee;
+      }
+      .topbar-ratio {
+        font-size: 12px;
+        padding: 5px 8px;
+        border-radius: 8px;
+        border: 1px solid #e8e8e6;
+        background: #f5f5f4;
+        color: #333;
+        font-weight: 700;
+        font-family: inherit;
+        cursor: pointer;
       }
 
       /* CANVAS AREA */
@@ -283,7 +315,7 @@
         width: 4px;
       }
       .canvas-area::-webkit-scrollbar-thumb {
-        background: #d0d0ce;
+        background: #e0e0de;
         border-radius: 2px;
       }
 
@@ -296,8 +328,10 @@
         background: var(--surface);
         border-radius: 14px;
         padding: 10px 14px;
-        box-shadow: var(--shadow-in);
+        border: 1px solid #e8e8e6;
         flex-shrink: 0;
+        width: 100%;
+        max-width: 560px;
       }
       .ms-label {
         font-size: 10px;
@@ -308,7 +342,7 @@
       .ms-sep {
         width: 1px;
         height: 16px;
-        background: #d0d0ce;
+        background: #e0e0de;
       }
       .ms-val {
         font-size: 11px;
@@ -324,10 +358,10 @@
         padding: 3px 6px;
         border-radius: 8px;
         border: none;
-        background: #ddddd9;
+        background: #ebebea;
         color: #333;
         font-weight: 700;
-        box-shadow: inset 2px 2px 4px #c8c8c6;
+
         font-family: inherit;
         cursor: pointer;
       }
@@ -337,16 +371,16 @@
         border-radius: 6px;
         border: none;
         cursor: pointer;
-        box-shadow: 2px 2px 5px #c8c8c6;
+
         padding: 1px;
-        background: #ddddd9;
+        background: #ebebea;
       }
 
       /* CANVAS WRAP */
       #canvas-wrap {
         border-radius: 18px;
         overflow: hidden;
-        box-shadow: var(--shadow-out);
+        border: 1px solid #e0e0de;
         background: #e0e0dc;
         flex-shrink: 0;
         width: 100%;
@@ -409,9 +443,6 @@
       .act-primary {
         background: #2a2a2a;
         color: #fff;
-        box-shadow:
-          3px 3px 8px rgba(0, 0, 0, 0.2),
-          -1px -1px 5px #fff;
       }
       .act-primary:hover {
         background: #1a1a1a;
@@ -419,12 +450,12 @@
       .act-secondary {
         background: var(--surface);
         color: #555;
-        box-shadow: var(--shadow-out);
+        border: 1px solid #e0e0de;
       }
       .act-danger {
         background: var(--surface);
         color: #c0392b;
-        box-shadow: var(--shadow-out);
+        border: 1px solid #e0e0de;
       }
 
       /* CELL */
@@ -435,7 +466,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: box-shadow 0.12s;
+        transition: outline 0.12s;
         cursor: pointer;
       }
       .cell:hover {
@@ -492,42 +523,39 @@
       .mobile-nav {
         display: none;
         position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: var(--surface);
-        border-top: 1px solid #d8d8d6;
-        padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+        bottom: calc(20px + env(safe-area-inset-bottom));
+        left: 50%;
+        transform: translateX(-50%);
+        background: none;
+        border: none;
         z-index: 100;
+        pointer-events: none;
       }
       .mobile-nav-inner {
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
         align-items: center;
+        pointer-events: none;
       }
-      .nav-tab {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 3px;
-        padding: 4px 16px;
-        background: none;
+      .nav-add-btn {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: var(--accent);
         border: none;
         cursor: pointer;
-        font-family: inherit;
-        font-size: 10px;
-        font-weight: 700;
-        color: #bbb;
-        transition: color 0.12s;
-        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        pointer-events: all;
+        transition:
+          background 0.12s,
+          transform 0.12s;
       }
-      .nav-tab.active {
-        color: var(--accent);
-      }
-      .nav-tab svg {
-        width: 22px;
-        height: 22px;
+      .nav-add-btn:active {
+        transform: scale(0.93);
+        background: #d45520;
       }
 
       /* ── MOBILE LAYOUT SHEET ── */
@@ -539,7 +567,7 @@
         right: 0;
         background: var(--surface);
         border-radius: 22px 22px 0 0;
-        box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.15);
+        border-top: 1px solid #e8e8e6;
         z-index: 200;
         max-height: 75vh;
         overflow: hidden;
@@ -555,7 +583,7 @@
       .sheet-handle {
         width: 36px;
         height: 4px;
-        background: #d0d0ce;
+        background: #e0e0de;
         border-radius: 2px;
         margin: 12px auto 8px;
         flex-shrink: 0;
@@ -594,11 +622,9 @@
       /* ── CONTEXT MENU ── */
       #ctx-menu {
         position: fixed;
-        background: #e8e8e6;
+        background: #f0f0ee;
         border-radius: 16px;
-        box-shadow:
-          6px 6px 20px rgba(0, 0, 0, 0.15),
-          -3px -3px 12px #fff;
+        border: 1px solid #e0e0de;
         padding: 5px 0;
         min-width: 158px;
         z-index: 9999;
@@ -639,6 +665,84 @@
         margin: 3px 0;
       }
 
+      /* ── SETTINGS POPOVER (togel style) ── */
+      #settings-popover {
+        display: none;
+        position: fixed;
+        top: 58px;
+        right: 16px;
+        background: #f0f0ee;
+        border: 1px solid #e0e0de;
+        border-radius: 18px;
+        padding: 14px 16px;
+        z-index: 9998;
+        min-width: 300px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.13);
+        flex-direction: column;
+        gap: 12px;
+      }
+      #settings-popover.open {
+        display: flex;
+      }
+      #settings-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9997;
+      }
+      #settings-backdrop.open {
+        display: block;
+      }
+      .sp-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .sp-label {
+        font-size: 9px;
+        font-weight: 900;
+        color: #999;
+        letter-spacing: 0.8px;
+        width: 46px;
+        flex-shrink: 0;
+      }
+      .sp-nums {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+      }
+      .sp-num {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        border: 1.5px solid #e0e0de;
+        background: #fff;
+        font-size: 11px;
+        font-weight: 800;
+        color: #555;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.1s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .sp-num:hover {
+        background: #f5f5f3;
+        border-color: #ccc;
+        color: #222;
+      }
+      .sp-num.active {
+        background: #2a2a2a;
+        border-color: #2a2a2a;
+        color: #fff;
+      }
+      .sp-divider {
+        height: 1px;
+        background: #e0e0de;
+        margin: 0 -2px;
+      }
+
       /* ── ZOOM MODAL ── */
       #zoom-modal {
         display: none;
@@ -659,11 +763,9 @@
       }
       #zoom-box {
         position: relative;
-        background: #e8e8e6;
+        background: #f0f0ee;
         border-radius: 20px;
-        box-shadow:
-          8px 8px 30px rgba(0, 0, 0, 0.2),
-          -4px -4px 16px #fff;
+        border: 1px solid #e0e0de;
         padding: 18px;
         width: min(88vw, 380px);
         display: flex;
@@ -685,7 +787,6 @@
         touch-action: none;
         user-select: none;
         position: relative;
-        box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.3);
       }
       #zoom-preview-wrap:active {
         cursor: grabbing;
@@ -737,11 +838,11 @@
         padding: 5px 11px;
         border-radius: 8px;
         border: none;
-        background: #ddddd9;
+        background: #ebebea;
         cursor: pointer;
         font-weight: 700;
         font-family: inherit;
-        box-shadow: 2px 2px 5px #c8c8c6;
+        border: 1px solid #e0e0de;
       }
       #zoom-footer {
         display: flex;
@@ -753,13 +854,11 @@
         padding: 8px 16px;
         border-radius: 11px;
         border: none;
-        background: #ddddd9;
+        background: #ebebea;
         cursor: pointer;
         font-weight: 700;
         font-family: inherit;
-        box-shadow:
-          3px 3px 7px #c8c8c6,
-          -2px -2px 5px #fff;
+        border: 1px solid #e0e0de;
       }
       #zoom-apply-btn {
         font-size: 12px;
@@ -771,11 +870,21 @@
         cursor: pointer;
         font-weight: 800;
         font-family: inherit;
-        box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.25);
       }
 
       /* ── RESPONSIVE ── */
+      .topbar-icon-btn#topbar-menu-btn {
+        display: none;
+      }
+
       @media (max-width: 700px) {
+        .action-row {
+          display: none;
+        }
+        .topbar-icon-btn#topbar-menu-btn {
+          display: flex;
+        }
+
         html,
         body {
           overflow: hidden;
@@ -792,7 +901,6 @@
         .main {
           height: 100vh;
           height: 100dvh;
-          padding-bottom: 62px; /* room for bottom nav */
         }
 
         .topbar {
@@ -804,7 +912,7 @@
         }
 
         .canvas-area {
-          padding: 14px 16px;
+          padding: 14px 16px 110px;
           gap: 12px;
         }
 
@@ -864,7 +972,7 @@
                 <rect x="13" y="13" width="8" height="8" rx="1.5" />
               </svg>
             </div>
-            <span class="brand-name">Kolase<span>Foto</span></span>
+            <span class="brand-name">GRID</span>
           </div>
 
           <div class="search-box">
@@ -904,8 +1012,90 @@
       <main class="main">
         <!-- TOPBAR -->
         <div class="topbar">
-          <span class="topbar-title">Edit Kolase</span>
-          <span class="slot-badge" id="slot-badge">0/4 foto</span>
+          <!-- hamburger / layout trigger (mobile only) -->
+          <button class="topbar-icon-btn" id="topbar-menu-btn">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+            >
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+          <span class="topbar-title">GRID</span>
+          <div class="topbar-actions">
+            <span class="slot-badge" id="slot-badge">0/4 foto</span>
+            <select class="ms-select topbar-ratio" id="ratio-sel">
+              <option value="1.4">4:5</option>
+              <option value="1.0">1:1</option>
+              <option value="0.75">3:4</option>
+              <option value="0.5625">16:9</option>
+            </select>
+            <!-- SETTINGS TOGGLE BUTTON -->
+            <button
+              class="topbar-icon-btn"
+              id="topbar-settings-btn"
+              title="Pengaturan"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="3" />
+                <path
+                  d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"
+                />
+              </svg>
+            </button>
+            <button class="topbar-icon-btn" id="topbar-dl-btn" title="Unduh">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+            </button>
+            <button
+              class="topbar-icon-btn danger"
+              id="topbar-clr-btn"
+              title="Hapus semua"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="3 6 5 6 21 6" />
+                <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
+                <path d="M10 11v6M14 11v6" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         <!-- CANVAS AREA -->
@@ -926,44 +1116,6 @@
             <button id="cancel-swap">✕ Batal</button>
           </div>
 
-          <!-- MINI SETTINGS -->
-          <div class="mini-settings">
-            <span class="ms-label">Rasio</span>
-            <select class="ms-select" id="ratio-sel">
-              <option value="1.4">4:5</option>
-              <option value="1.0">1:1</option>
-              <option value="0.75">3:4</option>
-              <option value="0.5625">16:9</option>
-            </select>
-            <div class="ms-sep"></div>
-            <span class="ms-label">Gap</span>
-            <input
-              type="range"
-              class="ms-input"
-              id="gap-r"
-              min="0"
-              max="16"
-              value="4"
-              style="width: 52px"
-            />
-            <span class="ms-val" id="gap-v">4</span>
-            <div class="ms-sep"></div>
-            <span class="ms-label">Radius</span>
-            <input
-              type="range"
-              class="ms-input"
-              id="rad-r"
-              min="0"
-              max="28"
-              value="0"
-              style="width: 48px"
-            />
-            <span class="ms-val" id="rad-v">0</span>
-            <div class="ms-sep"></div>
-            <span class="ms-label">BG</span>
-            <input type="color" class="ms-color" id="bg-c" value="#e0e0dc" />
-          </div>
-
           <div id="canvas-wrap" style="position: relative"></div>
 
           <div class="action-row">
@@ -980,56 +1132,18 @@
     <!-- ── MOBILE BOTTOM NAV ── -->
     <nav class="mobile-nav">
       <div class="mobile-nav-inner">
-        <button class="nav-tab active" id="nav-edit">
+        <button class="nav-add-btn" id="nav-add">
           <svg
+            width="28"
+            height="28"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
+            stroke-width="2.5"
+            stroke-linecap="round"
           >
-            <rect x="3" y="3" width="18" height="18" rx="2" />
-            <path d="M3 9h18M9 21V9" />
+            <path d="M12 5v14M5 12h14" />
           </svg>
-          Editor
-        </button>
-        <button class="nav-tab" id="nav-layout">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <rect x="3" y="3" width="7" height="7" rx="1" />
-            <rect x="14" y="3" width="7" height="7" rx="1" />
-            <rect x="3" y="14" width="7" height="7" rx="1" />
-            <rect x="14" y="14" width="7" height="7" rx="1" />
-          </svg>
-          Layout
-        </button>
-        <button class="nav-tab" id="nav-add">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <circle cx="12" cy="12" r="9" />
-            <path d="M12 8v8M8 12h8" />
-          </svg>
-          Foto
-        </button>
-        <button class="nav-tab" id="nav-download">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
-            <polyline points="7 10 12 15 17 10" />
-            <line x1="12" y1="15" x2="12" y2="3" />
-          </svg>
-          Unduh
         </button>
       </div>
     </nav>
@@ -1050,6 +1164,43 @@
         <div class="sheet-grid" id="layout-grid-mob"></div>
       </div>
     </div>
+
+    <!-- ── SETTINGS POPOVER (togel style) ── -->
+    <div id="settings-popover">
+      <div class="sp-row">
+        <span class="sp-label">GAP</span>
+        <div class="sp-nums" id="gap-nums">
+          <button class="sp-num" data-val="0">0</button>
+          <button class="sp-num" data-val="2">2</button>
+          <button class="sp-num active" data-val="4">4</button>
+          <button class="sp-num" data-val="6">6</button>
+          <button class="sp-num" data-val="8">8</button>
+          <button class="sp-num" data-val="10">10</button>
+          <button class="sp-num" data-val="12">12</button>
+          <button class="sp-num" data-val="16">16</button>
+        </div>
+      </div>
+      <div class="sp-divider"></div>
+      <div class="sp-row">
+        <span class="sp-label">RADIUS</span>
+        <div class="sp-nums" id="rad-nums">
+          <button class="sp-num active" data-val="0">0</button>
+          <button class="sp-num" data-val="4">4</button>
+          <button class="sp-num" data-val="8">8</button>
+          <button class="sp-num" data-val="12">12</button>
+          <button class="sp-num" data-val="16">16</button>
+          <button class="sp-num" data-val="20">20</button>
+          <button class="sp-num" data-val="24">24</button>
+          <button class="sp-num" data-val="28">28</button>
+        </div>
+      </div>
+      <div class="sp-divider"></div>
+      <div class="sp-row">
+        <span class="sp-label">BG</span>
+        <input type="color" class="ms-color" id="bg-c" value="#e0e0dc" />
+      </div>
+    </div>
+    <div id="settings-backdrop"></div>
 
     <!-- CONTEXT MENU -->
     <div id="ctx-menu">
@@ -1374,31 +1525,30 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
       document
         .getElementById("sheet-overlay")
         .addEventListener("click", closeSheet);
-      document.getElementById("nav-layout").addEventListener("click", () => {
-        setNavActive("nav-layout");
-        openSheet();
-      });
-
-      // ── MOBILE NAV ────────────────────────────────────────────────────
-      function setNavActive(id) {
-        document
-          .querySelectorAll(".nav-tab")
-          .forEach((t) => t.classList.remove("active"));
-        document.getElementById(id)?.classList.add("active");
-      }
       document
-        .getElementById("nav-edit")
-        .addEventListener("click", () => setNavActive("nav-edit"));
+        .getElementById("topbar-menu-btn")
+        .addEventListener("click", () => {
+          if (window.innerWidth <= 700) openSheet();
+        });
+
+      // ── MOBILE NAV (single + button) ─────────────────────────────────
       document.getElementById("nav-add").addEventListener("click", () => {
-        setNavActive("nav-add");
         ctxTarget = null;
         fileInput.setAttribute("multiple", "");
         fileInput.click();
       });
-      document.getElementById("nav-download").addEventListener("click", () => {
-        setNavActive("nav-download");
-        doDownload();
-      });
+
+      // ── TOPBAR BUTTONS ────────────────────────────────────────────────
+      document
+        .getElementById("topbar-dl-btn")
+        .addEventListener("click", doDownload);
+      document
+        .getElementById("topbar-clr-btn")
+        .addEventListener("click", () => {
+          if (!confirm("Hapus semua foto?")) return;
+          cells.forEach((c) => (c.img = null));
+          cancelSwap();
+        });
 
       // ── INIT / RENDER ─────────────────────────────────────────────────
       function initCells() {
@@ -1860,16 +2010,51 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
         aspectRatio = parseFloat(e.target.value);
         render();
       });
-      document.getElementById("gap-r").addEventListener("input", (e) => {
-        gap = parseInt(e.target.value);
-        document.getElementById("gap-v").textContent = gap;
-        render();
+      // ── SETTINGS POPOVER (togel) ──────────────────────────────────────
+      const settingsPopover = document.getElementById("settings-popover");
+      const settingsBackdrop = document.getElementById("settings-backdrop");
+      function openSettings() {
+        settingsPopover.classList.add("open");
+        settingsBackdrop.classList.add("open");
+      }
+      function closeSettings() {
+        settingsPopover.classList.remove("open");
+        settingsBackdrop.classList.remove("open");
+      }
+      document
+        .getElementById("topbar-settings-btn")
+        .addEventListener("click", (e) => {
+          e.stopPropagation();
+          settingsPopover.classList.contains("open")
+            ? closeSettings()
+            : openSettings();
+        });
+      settingsBackdrop.addEventListener("click", closeSettings);
+
+      // GAP togel buttons
+      document.querySelectorAll("#gap-nums .sp-num").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll("#gap-nums .sp-num")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          gap = parseInt(btn.dataset.val);
+          render();
+        });
       });
-      document.getElementById("rad-r").addEventListener("input", (e) => {
-        radius = parseInt(e.target.value);
-        document.getElementById("rad-v").textContent = radius;
-        render();
+
+      // RADIUS togel buttons
+      document.querySelectorAll("#rad-nums .sp-num").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll("#rad-nums .sp-num")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          radius = parseInt(btn.dataset.val);
+          render();
+        });
       });
+
       document.getElementById("bg-c").addEventListener("input", (e) => {
         bgColor = e.target.value;
         render();
