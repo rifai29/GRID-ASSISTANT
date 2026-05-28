@@ -747,12 +747,16 @@
         }
 
         .sheet-inner .pills {
-            flex-wrap: wrap;
-            justify-content: center;
+            flex-wrap: nowrap;
+            width: 100%;
+            justify-content: space-between;
         }
 
-        .sheet-inner .pills::-webkit-scrollbar {
-            display: none;
+        .sheet-inner .pill {
+            padding: 6px 8px;
+            font-size: 10px;
+            flex: 1;
+            text-align: center;
         }
 
         .sheet-inner::-webkit-scrollbar {
