@@ -265,11 +265,18 @@
             background: var(--surface);
         }
 
+        .topbar-brand-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 0;
+        }
+
         .topbar-title {
             font-size: 15px;
             font-weight: 800;
             color: var(--text);
-            flex: 1;
         }
 
         .topbar-actions {
@@ -279,6 +286,7 @@
         }
 
         .slot-badge {
+            display: none;
             font-size: 11px;
             padding: 3px 10px;
             border-radius: 20px;
@@ -326,6 +334,36 @@
             font-weight: 700;
             font-family: inherit;
             cursor: pointer;
+        }
+
+        /* Ratio pills – mobile only */
+        .ratio-pills {
+            display: none;
+            align-items: center;
+            gap: 4px;
+            background: #f0f0ee;
+            border-radius: 10px;
+            padding: 3px;
+        }
+
+        .ratio-pill {
+            font-size: 11px;
+            font-weight: 800;
+            font-family: inherit;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 7px;
+            background: transparent;
+            color: #888;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+            white-space: nowrap;
+        }
+
+        .ratio-pill.active {
+            background: #fff;
+            color: #1a1a1a;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.10);
         }
 
         /* CANVAS AREA */
@@ -761,6 +799,7 @@
         }
 
         /* ── SETTINGS POPOVER (togel style) ── */
+        /* ── SETTINGS POPOVER (desktop) ── */
         #settings-popover {
             display: none;
             position: fixed;
@@ -786,6 +825,7 @@
             position: fixed;
             inset: 0;
             z-index: 9997;
+            background: rgba(0,0,0,0.18);
         }
 
         #settings-backdrop.open {
@@ -846,6 +886,92 @@
             height: 1px;
             background: #e0e0de;
             margin: 0 -2px;
+        }
+
+        /* ── MOBILE: settings as bottom sheet ── */
+        @media (max-width: 700px) {
+            #settings-popover {
+                top: unset;
+                right: unset;
+                left: 0;
+                bottom: -100%;
+                width: 100%;
+                min-width: unset;
+                border-radius: 24px 24px 0 0;
+                padding: 0 0 calc(env(safe-area-inset-bottom) + 20px);
+                gap: 0;
+                box-shadow: 0 -4px 32px rgba(0,0,0,0.14);
+                transition: bottom 0.3s cubic-bezier(0.32,0.72,0,1);
+            }
+
+            #settings-popover.open {
+                display: flex;
+                bottom: 0;
+            }
+
+            /* drag handle */
+            #settings-popover::before {
+                content: '';
+                display: block;
+                width: 36px;
+                height: 4px;
+                background: #d0d0ce;
+                border-radius: 2px;
+                margin: 12px auto 16px;
+                flex-shrink: 0;
+            }
+
+            .sp-sheet-title {
+                display: block;
+            }
+
+            .sp-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 14px 20px;
+            }
+
+            .sp-label {
+                font-size: 10px;
+                width: auto;
+                letter-spacing: 1px;
+            }
+
+            .sp-nums {
+                gap: 7px;
+                width: 100%;
+            }
+
+            .sp-num {
+                width: 38px;
+                height: 38px;
+                border-radius: 10px;
+                font-size: 12px;
+                flex: 1;
+                min-width: 0;
+            }
+
+            .sp-divider {
+                margin: 0 20px;
+            }
+
+            /* BG row horizontal on mobile */
+            .sp-row-bg {
+                flex-direction: row !important;
+                align-items: center !important;
+                padding: 14px 20px !important;
+                gap: 14px !important;
+            }
+
+            .ms-color {
+                width: 40px;
+                height: 40px;
+                border-radius: 10px;
+                border: 1.5px solid #e0e0de;
+                padding: 2px;
+                cursor: pointer;
+            }
         }
 
         /* ── ZOOM MODAL ── */
@@ -1032,8 +1158,18 @@
             }
 
             .topbar-title {
-                font-size: 15px;
+                display: none;
             }
+
+            /* Show pills, hide select on mobile */
+            .topbar-ratio {
+                display: none;
+            }
+
+            .ratio-pills {
+                display: flex;
+            }
+
 
             .canvas-area {
                 padding: 14px 16px 110px;
@@ -1097,18 +1233,6 @@
         <!-- ── SIDEBAR (desktop only) ── -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <div class="app-brand">
-                    <div class="brand-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
-                            <rect x="3" y="3" width="8" height="8" rx="1.5" />
-                            <rect x="13" y="3" width="8" height="8" rx="1.5" />
-                            <rect x="3" y="13" width="8" height="8" rx="1.5" />
-                            <rect x="13" y="13" width="8" height="8" rx="1.5" />
-                        </svg>
-                    </div>
-                    <span class="brand-name">GRID ASSISTANT</span>
-                </div>
-
                 <div class="search-box">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2.5">
                         <circle cx="11" cy="11" r="8" />
@@ -1148,15 +1272,24 @@
                         <line x1="3" y1="18" x2="21" y2="18" />
                     </svg>
                 </button>
-                <span class="topbar-title">GRID ASSISTANT</span>
+                <div class="topbar-brand-group">
+                    <span class="topbar-title">GRID ASSISTANT</span>
+                </div>
                 <div class="topbar-actions">
-                    <span class="slot-badge" id="slot-badge">0/4 foto</span>
+                    <!-- Desktop: native select -->
                     <select class="ms-select topbar-ratio" id="ratio-sel">
                         <option value="1.4">4:5</option>
                         <option value="1.0">1:1</option>
                         <option value="0.75">3:4</option>
                         <option value="0.5625">16:9</option>
                     </select>
+                    <!-- Mobile: pill selector -->
+                    <div class="ratio-pills" id="ratio-pills">
+                        <button class="ratio-pill active" data-val="1.4">4:5</button>
+                        <button class="ratio-pill" data-val="1.0">1:1</button>
+                        <button class="ratio-pill" data-val="0.75">3:4</button>
+                        <button class="ratio-pill" data-val="0.5625">16:9</button>
+                    </div>
                     <!-- SETTINGS TOGGLE BUTTON -->
                     <button class="topbar-icon-btn" id="topbar-settings-btn" title="Pengaturan">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -1271,7 +1404,7 @@
             </div>
         </div>
         <div class="sp-divider"></div>
-        <div class="sp-row">
+        <div class="sp-row sp-row-bg">
             <span class="sp-label">BG</span>
             <input type="color" class="ms-color" id="bg-c" value="#e0e0dc" />
         </div>
@@ -1835,8 +1968,8 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
                 cw.appendChild(el);
             });
             const filled = cells.filter((c) => c.img).length;
-            document.getElementById("slot-badge").textContent =
-                `${filled}/${cells.length} foto`;
+            const sb = document.getElementById("slot-badge");
+            if (sb) sb.textContent = `${filled}/${cells.length} foto`;
         }
 
         function startCellPan(clientX, clientY, idx, el, rect) {
@@ -2162,6 +2295,18 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
         document.getElementById("ratio-sel").addEventListener("change", (e) => {
             aspectRatio = parseFloat(e.target.value);
             render();
+        });
+
+        // Ratio pills (mobile)
+        document.querySelectorAll(".ratio-pill").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".ratio-pill").forEach((b) => b.classList.remove("active"));
+                btn.classList.add("active");
+                aspectRatio = parseFloat(btn.dataset.val);
+                // sync select
+                document.getElementById("ratio-sel").value = btn.dataset.val;
+                render();
+            });
         });
         // ── SETTINGS POPOVER (togel) ──────────────────────────────────────
         const settingsPopover = document.getElementById("settings-popover");
