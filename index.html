@@ -1286,6 +1286,17 @@
         <!-- ── SIDEBAR (desktop only) ── -->
         <aside class="sidebar">
             <div class="sidebar-header">
+                <div class="app-brand">
+                    <div class="brand-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7" rx="1"/>
+                            <rect x="14" y="3" width="7" height="7" rx="1"/>
+                            <rect x="3" y="14" width="7" height="7" rx="1"/>
+                            <rect x="14" y="14" width="7" height="7" rx="1"/>
+                        </svg>
+                    </div>
+                    <span class="brand-name">GRID <span>ASSISTANT</span></span>
+                </div>
                 <div class="search-box">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2.5">
                         <circle cx="11" cy="11" r="8" />
@@ -1331,6 +1342,7 @@
                 </button>
                 <div class="topbar-brand-group">
                     <span class="topbar-title">GRID ASSISTANT</span>
+                    <span class="slot-badge" id="slot-badge"></span>
                 </div>
                 <div class="topbar-actions">
                     <!-- Desktop: native select -->
@@ -1462,7 +1474,11 @@
                 <button class="sp-num" data-val="28">28</button>
             </div>
         </div>
-        <input type="color" class="ms-color" id="bg-c" value="#e0e0dc" style="display:none;" />
+        <div class="sp-divider"></div>
+        <div class="sp-row sp-row-bg">
+            <span class="sp-label">LATAR</span>
+            <input type="color" class="ms-color" id="bg-c" value="#e0e0dc" />
+        </div>
     </div>
     <div id="settings-backdrop"></div>
 
@@ -1735,12 +1751,14 @@
             { key: "1L+2R", label: "L+2R", n: 3, filter: ["all", "3"] },
             { key: "1T+2B", label: "T+2B", n: 3, filter: ["all", "3"] },
             { key: "3v", label: "Trio Kolom", n: 3, filter: ["all", "3"] },
+            { key: "3h", label: "Trio Baris", n: 3, filter: ["all", "3"] },
             { key: "2x2", label: "Grid 2×2", n: 4, filter: ["all", "4"] },
             { key: "1big+3bot", label: "Highlight", n: 4, filter: ["all", "4"] },
             { key: "5asym", label: "Asimetris", n: 5, filter: ["all", "6+"] },
             { key: "3x2", label: "Grid 3×2", n: 6, filter: ["all", "6+"] },
             { key: "2x3", label: "Grid 2×3", n: 6, filter: ["all", "6+"] },
             { key: "3x3", label: "Grid 3×3", n: 9, filter: ["all", "6+"] },
+            { key: "1big+9bot", label: "1 Besar+9", n: 10, filter: ["all", "9+"] },
             { key: "2x5", label: "Grid 2×5", n: 10, filter: ["all", "9+"] },
             { key: "5x2", label: "Grid 5×2", n: 10, filter: ["all", "9+"] },
             { key: "3x4", label: "Grid 3×4", n: 12, filter: ["all", "9+"] },
@@ -2050,6 +2068,7 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
                 if (!confirm("Hapus semua foto?")) return;
                 cells.forEach((c) => (c.img = null));
                 cancelSwap();
+                render();
             });
 
         // ── INIT / RENDER ─────────────────────────────────────────────────
@@ -2198,7 +2217,10 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
             });
             const filled = cells.filter((c) => c.img).length;
             const sb = document.getElementById("slot-badge");
-            if (sb) sb.textContent = `${filled}/${cells.length} foto`;
+            if (sb) {
+                sb.textContent = `${filled}/${cells.length} foto`;
+                sb.style.display = filled > 0 ? "inline-block" : "none";
+            }
         }
 
         function startCellPan(clientX, clientY, idx, el, rect) {
@@ -2520,6 +2542,7 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
             if (!confirm("Hapus semua foto?")) return;
             cells.forEach((c) => (c.img = null));
             cancelSwap();
+            render();
         });
         document.getElementById("ratio-sel").addEventListener("change", (e) => {
             aspectRatio = parseFloat(e.target.value);
@@ -2688,6 +2711,7 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
         window.addEventListener("resize", () => render());
 
         // ── INIT ──────────────────────────────────────────────────────────
+        document.getElementById("ratio-sel").value = String(aspectRatio);
         initCells();
         buildAllGrids();
         render();
