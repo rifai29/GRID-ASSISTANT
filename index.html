@@ -746,16 +746,23 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        .sheet-inner .pills {
-            flex-wrap: nowrap;
-            width: 100%;
-            justify-content: space-between;
+        .sheet-pills-bar {
+            flex-shrink: 0;
+            padding: 8px 16px 10px;
+            border-bottom: 1px solid #e8e8e6;
+            background: var(--surface);
         }
 
-        .sheet-inner .pill {
-            padding: 6px 8px;
-            font-size: 10px;
+        .sheet-pills-bar .pills {
+            display: flex;
+            flex-wrap: nowrap;
+            width: 100%;
+        }
+
+        .sheet-pills-bar .pill {
             flex: 1;
+            padding: 6px 4px;
+            font-size: 10px;
             text-align: center;
         }
 
@@ -1411,8 +1418,7 @@
         <div class="sheet-handle-wrap" id="sheet-handle-wrap">
             <div class="sheet-handle"></div>
         </div>
-        <div class="sheet-inner">
-            <div style="overflow-x: auto; margin-bottom: 14px; scrollbar-width: none;">
+        <div class="sheet-pills-bar">
             <div class="pills" id="sheet-pills">
                 <button class="pill active" data-filter="all">Semua</button>
                 <button class="pill inactive" data-filter="2">2 Foto</button>
@@ -1421,7 +1427,8 @@
                 <button class="pill inactive" data-filter="6+">6+ Foto</button>
                 <button class="pill inactive" data-filter="9+">9+ Foto</button>
             </div>
-            </div>
+        </div>
+        <div class="sheet-inner">
             <div class="sheet-grid" id="layout-grid-mob"></div>
         </div>
     </div>
