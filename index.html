@@ -501,33 +501,64 @@
         #swap-bar {
             display: none;
             align-items: center;
-            gap: 7px;
-            background: #fff8ee;
-            border: 1.5px solid var(--accent);
-            border-radius: 11px;
-            padding: 7px 12px;
-            font-size: 12px;
-            color: #7a3800;
-            font-weight: 700;
+            gap: 10px;
+            background: #1a1a1a;
+            border-radius: 14px;
+            padding: 10px 10px 10px 14px;
             flex-shrink: 0;
+            animation: swapBarIn 0.22s cubic-bezier(0.34,1.3,0.64,1);
         }
 
-        #swap-bar.show {
+        @keyframes swapBarIn {
+            from { opacity:0; transform: translateY(-6px) scale(0.97); }
+            to   { opacity:1; transform: translateY(0) scale(1); }
+        }
+
+        #swap-bar.show { display: flex; }
+
+        .swap-bar-icon {
+            width: 28px;
+            height: 28px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
             display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: #fff;
+        }
+
+        .swap-bar-icon svg { width:13px; height:13px; }
+
+        .swap-bar-text {
+            flex: 1;
+            font-size: 12px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.85);
+            letter-spacing: -0.1px;
+        }
+
+        .swap-bar-text strong {
+            color: #fff;
+            font-weight: 900;
         }
 
         #cancel-swap {
-            margin-left: auto;
-            font-size: 10px;
-            padding: 3px 9px;
-            border-radius: 7px;
-            border: 1.5px solid var(--accent);
-            background: transparent;
-            color: var(--accent);
+            flex-shrink: 0;
+            font-size: 11px;
+            padding: 6px 12px;
+            border-radius: 9px;
+            border: none;
+            background: rgba(255,255,255,0.12);
+            color: rgba(255,255,255,0.9);
             cursor: pointer;
             font-weight: 800;
             font-family: inherit;
+            transition: background 0.12s;
+            letter-spacing: -0.1px;
         }
+
+        #cancel-swap:hover { background: rgba(255,255,255,0.2); }
 
         /* ACTION BUTTONS */
         .action-row {
@@ -801,53 +832,88 @@
         /* ── CONTEXT MENU ── */
         #ctx-menu {
             position: fixed;
-            background: #f0f0ee;
-            border-radius: 16px;
-            border: 1px solid #e0e0de;
-            padding: 5px 0;
-            min-width: 158px;
+            background: rgba(248, 248, 246, 0.96);
+            backdrop-filter: blur(24px) saturate(1.6);
+            -webkit-backdrop-filter: blur(24px) saturate(1.6);
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.7);
+            box-shadow:
+                0 2px 8px rgba(0,0,0,0.08),
+                0 12px 40px rgba(0,0,0,0.16),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            padding: 6px;
+            min-width: 192px;
             z-index: 9999;
             display: none;
+            transform-origin: top left;
         }
 
         #ctx-menu.show {
             display: block;
+            animation: ctxPop 0.18s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+        }
+
+        @keyframes ctxPop {
+            from { opacity: 0; transform: scale(0.82) translateY(-6px); }
+            to   { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .ctx-item {
             display: flex;
             align-items: center;
-            gap: 9px;
-            padding: 10px 14px;
+            gap: 11px;
+            padding: 9px 10px 9px 8px;
             font-size: 13px;
-            color: #2a2a2a;
+            color: #1a1a1a;
             cursor: pointer;
             white-space: nowrap;
             font-weight: 700;
+            border-radius: 12px;
+            transition: background 0.1s;
+            letter-spacing: -0.1px;
         }
 
         .ctx-item:hover {
-            background: rgba(232, 99, 42, 0.1);
+            background: rgba(0,0,0,0.06);
+        }
+
+        .ctx-item:active {
+            background: rgba(0,0,0,0.1);
+            transform: scale(0.98);
         }
 
         .ctx-item.danger {
-            color: #c0392b;
+            color: #d0341c;
         }
 
         .ctx-item.danger:hover {
-            background: rgba(192, 57, 43, 0.08);
+            background: rgba(208, 52, 28, 0.08);
         }
 
-        .ctx-item svg {
-            width: 13px;
-            height: 13px;
+        .ctx-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             flex-shrink: 0;
-            opacity: 0.55;
         }
+
+        .ctx-icon svg {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+        }
+
+        .ctx-icon-zoom  { background: #e8f0ff; color: #3b6fda; }
+        .ctx-icon-swap  { background: #e8f9f0; color: #1d9e75; }
+        .ctx-icon-rep   { background: #fff3e8; color: #d47420; }
+        .ctx-icon-del   { background: #ffeee8; color: #d0341c; }
 
         .ctx-sep {
             height: 1px;
-            background: #d8d8d6;
+            background: rgba(0,0,0,0.07);
             margin: 3px 0;
         }
 
@@ -1033,64 +1099,110 @@
             position: fixed;
             inset: 0;
             z-index: 10000;
-            align-items: center;
+            align-items: flex-end;
             justify-content: center;
         }
-
         #zoom-modal.show {
             display: flex;
+            animation: zmFadeIn 0.22s ease forwards;
         }
+        @keyframes zmFadeIn { from{opacity:0} to{opacity:1} }
 
         #zoom-backdrop {
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
         }
 
         #zoom-box {
             position: relative;
-            background: #f0f0ee;
-            border-radius: 20px;
-            border: 1px solid #e0e0de;
-            padding: 18px;
-            width: min(88vw, 380px);
+            background: #f5f5f3;
+            border-radius: 28px 28px 0 0;
+            width: 100%;
+            max-width: 520px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
             z-index: 1;
+            overflow: hidden;
+            animation: zmSlideUp 0.3s cubic-bezier(0.32,0.72,0,1) forwards;
+            padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
+        }
+        @keyframes zmSlideUp {
+            from { transform: translateY(100%); }
+            to   { transform: translateY(0); }
         }
 
-        #zoom-box h3 {
-            font-size: 14px;
+        #zoom-handle {
+            width: 36px;
+            height: 4px;
+            background: #d0d0ce;
+            border-radius: 2px;
+            margin: 14px auto 0;
+            flex-shrink: 0;
+        }
+
+        #zoom-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px 0;
+        }
+        #zoom-title {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 16px;
             font-weight: 800;
             color: #1a1a1a;
+            letter-spacing: -0.3px;
         }
+        #zoom-title-icon {
+            width: 32px; height: 32px;
+            background: #e8f0ff;
+            border-radius: 9px;
+            display: flex; align-items: center; justify-content: center;
+            color: #3b6fda;
+            flex-shrink: 0;
+        }
+        #zoom-title-icon svg { width:15px; height:15px; }
+
+        #zoom-close-btn {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            border: none;
+            background: #e8e8e6;
+            color: #666;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: inherit;
+            display: flex; align-items: center; justify-content: center;
+            line-height: 1;
+            transition: background 0.1s;
+        }
+        #zoom-close-btn:hover { background: #dddddB; }
 
         #zoom-preview-wrap {
-            width: 100%;
-            border-radius: 12px;
+            margin: 14px 16px 0;
+            border-radius: 16px;
             overflow: hidden;
-            background: #222;
+            background: #1a1a1a;
             cursor: grab;
             touch-action: none;
             user-select: none;
             position: relative;
+            flex-shrink: 0;
         }
-
-        #zoom-preview-wrap:active {
-            cursor: grabbing;
-        }
+        #zoom-preview-wrap:active { cursor: grabbing; }
 
         #zoom-preview {
             width: 100%;
             position: relative;
             overflow: hidden;
         }
-
         #zoom-img {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             object-fit: cover;
             display: block;
             transform-origin: center;
@@ -1100,77 +1212,140 @@
 
         #zoom-hint {
             font-size: 10px;
-            color: #aaa;
+            color: #bbb;
             text-align: center;
             font-weight: 700;
+            padding: 8px 0 0;
+            letter-spacing: 0.2px;
         }
 
         .zoom-ctrl-row {
             display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 16px 18px 0;
+        }
+        .zoom-ctrl-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .zoom-ctrl-top label {
+            font-size: 10px;
+            font-weight: 900;
+            color: #aaa;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+        .zoom-ctrl-right {
+            display: flex;
             align-items: center;
             gap: 8px;
         }
-
-        .zoom-ctrl-row label {
-            font-size: 11px;
-            color: #999;
-            min-width: 36px;
-            font-weight: 700;
-        }
-
-        .zoom-ctrl-row input[type="range"] {
-            flex: 1;
-            accent-color: var(--accent);
-        }
-
         #zoom-val-lbl {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 800;
             color: var(--accent);
-            min-width: 32px;
+            min-width: 34px;
             text-align: right;
         }
-
         #zoom-reset {
             font-size: 11px;
-            padding: 5px 11px;
-            border-radius: 8px;
-            border: none;
-            background: #ebebea;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1.5px solid #e0e0de;
+            background: #fff;
             cursor: pointer;
-            font-weight: 700;
+            font-weight: 800;
             font-family: inherit;
-            border: 1px solid #e0e0de;
+            color: #666;
+            transition: all 0.1s;
+        }
+        #zoom-reset:hover { background: #f5f5f3; }
+
+        /* custom slider */
+        #zoom-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: #e0e0de;
+            outline: none;
+            cursor: pointer;
+        }
+        #zoom-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(232,99,42,0.4);
+            border: 3px solid #fff;
+            transition: transform 0.1s;
+        }
+        #zoom-slider::-webkit-slider-thumb:active { transform: scale(1.18); }
+        #zoom-slider::-moz-range-thumb {
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 8px rgba(232,99,42,0.4);
         }
 
         #zoom-footer {
             display: flex;
-            justify-content: flex-end;
-            gap: 8px;
+            gap: 10px;
+            padding: 16px 16px 8px;
         }
-
         #zoom-cancel-btn {
-            font-size: 12px;
-            padding: 8px 16px;
-            border-radius: 11px;
+            flex: 1;
+            padding: 14px 0;
+            border-radius: 16px;
             border: none;
-            background: #ebebea;
+            background: #eaeae8;
             cursor: pointer;
-            font-weight: 700;
+            font-weight: 800;
             font-family: inherit;
-            border: 1px solid #e0e0de;
+            font-size: 14px;
+            color: #555;
+            transition: background 0.1s;
         }
-
+        #zoom-cancel-btn:hover { background: #e0e0de; }
         #zoom-apply-btn {
-            font-size: 12px;
-            padding: 8px 18px;
-            border-radius: 11px;
+            flex: 2;
+            padding: 14px 0;
+            border-radius: 16px;
             border: none;
-            background: #2a2a2a;
+            background: #1a1a1a;
             color: #fff;
             cursor: pointer;
             font-weight: 800;
             font-family: inherit;
+            font-size: 14px;
+            transition: background 0.1s;
+        }
+        #zoom-apply-btn:hover { background: #111; }
+        #zoom-apply-btn:active { transform: scale(0.98); }
+
+        @media (min-width: 701px) {
+            #zoom-modal { align-items: center; }
+            #zoom-box {
+                border-radius: 24px;
+                max-width: 400px;
+                padding-bottom: 0;
+                animation: zmDesktopIn 0.22s cubic-bezier(0.34,1.3,0.64,1) forwards;
+                box-shadow: 0 8px 48px rgba(0,0,0,0.22);
+            }
+            @keyframes zmDesktopIn {
+                from { opacity:0; transform: scale(0.9) translateY(12px); }
+                to   { opacity:1; transform: scale(1) translateY(0); }
+            }
+            #zoom-handle { display: none; }
+            #zoom-cancel-btn, #zoom-apply-btn { padding: 11px 0; font-size: 13px; }
+            #zoom-footer { padding: 14px 16px 16px; }
         }
 
         /* ── RESPONSIVE ── */
@@ -1391,11 +1566,12 @@
             <div class="canvas-area">
                 <!-- SWAP BAR -->
                 <div id="swap-bar">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2.5">
-                        <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" />
-                    </svg>
-                    Mode tukar — klik sel tujuan
+                    <span class="swap-bar-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                            <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" />
+                        </svg>
+                    </span>
+                    <span class="swap-bar-text"><strong>Mode tukar</strong> — klik sel tujuan</span>
                     <button id="cancel-swap">✕ Batal</button>
                 </div>
 
@@ -1485,35 +1661,43 @@
     <!-- CONTEXT MENU -->
     <div id="ctx-menu">
         <div class="ctx-item" id="ctx-zoom">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                <line x1="11" y1="8" x2="11" y2="14" />
-                <line x1="8" y1="11" x2="14" y2="11" />
-            </svg>
+            <span class="ctx-icon ctx-icon-zoom">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    <line x1="11" y1="8" x2="11" y2="14" />
+                    <line x1="8" y1="11" x2="14" y2="11" />
+                </svg>
+            </span>
             Zoom &amp; Crop
         </div>
         <div class="ctx-item" id="ctx-replace">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
-                <polyline points="17 8 12 3 7 8" />
-                <line x1="12" y1="3" x2="12" y2="15" />
-            </svg>
+            <span class="ctx-icon ctx-icon-rep">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                    <polyline points="17 8 12 3 7 8" />
+                    <line x1="12" y1="3" x2="12" y2="15" />
+                </svg>
+            </span>
             Ganti Foto
         </div>
         <div class="ctx-item" id="ctx-move">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" />
-            </svg>
+            <span class="ctx-icon ctx-icon-swap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                    <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" />
+                </svg>
+            </span>
             Tukar Posisi
         </div>
         <div class="ctx-sep"></div>
         <div class="ctx-item danger" id="ctx-del">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="3 6 5 6 21 6" />
-                <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
-                <path d="M10 11v6M14 11v6" />
-            </svg>
+            <span class="ctx-icon ctx-icon-del">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                    <polyline points="3 6 5 6 21 6" />
+                    <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
+                    <path d="M10 11v6M14 11v6" />
+                </svg>
+            </span>
             Hapus Foto
         </div>
     </div>
@@ -1522,7 +1706,21 @@
     <div id="zoom-modal">
         <div id="zoom-backdrop"></div>
         <div id="zoom-box">
-            <h3>🔍 Zoom &amp; Crop</h3>
+            <div id="zoom-handle"></div>
+            <div id="zoom-header">
+                <div id="zoom-title">
+                    <span id="zoom-title-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            <line x1="11" y1="8" x2="11" y2="14"/>
+                            <line x1="8" y1="11" x2="14" y2="11"/>
+                        </svg>
+                    </span>
+                    Zoom &amp; Crop
+                </div>
+                <button id="zoom-close-btn">✕</button>
+            </div>
             <div id="zoom-preview-wrap">
                 <div id="zoom-preview">
                     <img id="zoom-img" src="" alt="" draggable="false" />
@@ -1530,10 +1728,14 @@
             </div>
             <p id="zoom-hint">Scroll / pinch zoom · Seret untuk geser</p>
             <div class="zoom-ctrl-row">
-                <label>Zoom</label>
+                <div class="zoom-ctrl-top">
+                    <label>ZOOM</label>
+                    <div class="zoom-ctrl-right">
+                        <span id="zoom-val-lbl">1×</span>
+                        <button id="zoom-reset">Reset</button>
+                    </div>
+                </div>
                 <input type="range" id="zoom-slider" min="100" max="400" step="1" value="100" />
-                <span id="zoom-val-lbl">1×</span>
-                <button id="zoom-reset">Reset</button>
             </div>
             <div id="zoom-footer">
                 <button id="zoom-cancel-btn">Batal</button>
@@ -2285,11 +2487,13 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
         const ctxMenu = document.getElementById("ctx-menu");
         function openCtx(e, idx) {
             ctxTarget = idx;
+            // Re-trigger animation each open
+            ctxMenu.classList.remove("show");
+            void ctxMenu.offsetWidth;
             ctxMenu.classList.add("show");
-            ctxMenu.style.left =
-                Math.min(e.clientX, window.innerWidth - 170) + "px";
-            ctxMenu.style.top =
-                Math.min(e.clientY, window.innerHeight - 160) + "px";
+            const menuW = 200, menuH = 180;
+            ctxMenu.style.left = Math.min(e.clientX, window.innerWidth - menuW) + "px";
+            ctxMenu.style.top  = Math.min(e.clientY, window.innerHeight - menuH) + "px";
         }
         function closeCtx() {
             ctxMenu.classList.remove("show");
@@ -2387,6 +2591,9 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
             });
         document
             .getElementById("zoom-cancel-btn")
+            .addEventListener("click", () => zoomModal.classList.remove("show"));
+        document
+            .getElementById("zoom-close-btn")
             .addEventListener("click", () => zoomModal.classList.remove("show"));
         document
             .getElementById("zoom-backdrop")
