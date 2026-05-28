@@ -59,11 +59,13 @@
         }
 
         .sidebar-header {
-            padding: 24px 20px 16px;
+            padding: 16px 20px 12px;
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            border-bottom: 1px solid #e8e8e6;
+            gap: 10px;
         }
 
         .sidebar-header .search-box {
@@ -1271,12 +1273,6 @@
                     </svg>
                     <input id="layout-search" type="text" placeholder="Cari layout kolase..." style="border:none;background:none;outline:none;font-family:inherit;font-size:13px;color:#aaa;font-weight:600;width:100%;" />
                 </div>
-            </div>
-
-            <div class="sidebar-scroll">
-                <div class="section-hd">
-                    <button class="see-all">Lihat semua</button>
-                </div>
                 <div class="pills-wrap">
                     <div class="pills">
                         <button class="pill active" data-filter="all">Semua</button>
@@ -1286,6 +1282,12 @@
                         <button class="pill inactive" data-filter="6+">6+ Foto</button>
                         <button class="pill inactive" data-filter="9+">9+ Foto</button>
                     </div>
+                </div>
+            </div>
+
+            <div class="sidebar-scroll">
+                <div class="section-hd">
+                    <button class="see-all">Lihat semua</button>
                 </div>
                 <div class="layout-grid" id="layout-grid-desk"></div>
             </div>
@@ -1805,10 +1807,21 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
 
             // Scroll to group or show all
             if (filter === "all") {
-                grid.closest(".sidebar-scroll, .sheet-inner")?.scrollTo({ top: 0, behavior: "smooth" });
+                const scroller = containerId === "layout-grid-desk"
+                    ? document.querySelector(".sidebar-scroll")
+                    : document.querySelector(".sheet-inner");
+                if (scroller) scroller.scrollTo({ top: 0, behavior: "smooth" });
             } else {
                 const target = grid.querySelector(`[data-group="${filter}"]`);
-                if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+                if (target) {
+                    const scroller = containerId === "layout-grid-desk"
+                        ? document.querySelector(".sidebar-scroll")
+                        : document.querySelector(".sheet-inner");
+                    if (scroller) {
+                        const offset = target.offsetTop - grid.offsetTop;
+                        scroller.scrollTo({ top: offset, behavior: "smooth" });
+                    }
+                }
             }
         }
 
