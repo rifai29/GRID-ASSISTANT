@@ -369,6 +369,35 @@
             cursor: pointer;
         }
 
+        /* Ratio pills – mobile only */
+        .ratio-pills {
+            display: none;
+            align-items: center;
+            gap: 4px;
+            background: #f0f0ee;
+            border-radius: 10px;
+            padding: 3px;
+        }
+
+        .ratio-pill {
+            font-size: 11px;
+            font-weight: 800;
+            font-family: inherit;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 7px;
+            background: transparent;
+            color: #888;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+            white-space: nowrap;
+        }
+
+        .ratio-pill.active {
+            background: #fff;
+            color: #1a1a1a;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.10);
+        }
 
         /* CANVAS AREA */
         .canvas-area {
@@ -1185,6 +1214,15 @@
                 display: none;
             }
 
+            /* Show pills, hide select on mobile */
+            .topbar-ratio {
+                display: none;
+            }
+
+            .ratio-pills {
+                display: flex;
+            }
+
 
             .canvas-area {
                 padding: 14px 16px 110px;
@@ -1302,7 +1340,13 @@
                         <option value="0.75">3:4</option>
                         <option value="0.5625">16:9</option>
                     </select>
-
+                    <!-- Mobile: pill selector -->
+                    <div class="ratio-pills" id="ratio-pills">
+                        <button class="ratio-pill active" data-val="1.4">4:5</button>
+                        <button class="ratio-pill" data-val="1.0">1:1</button>
+                        <button class="ratio-pill" data-val="0.75">3:4</button>
+                        <button class="ratio-pill" data-val="0.5625">16:9</button>
+                    </div>
                     <!-- SETTINGS TOGGLE BUTTON -->
                     <button class="topbar-icon-btn" id="topbar-settings-btn" title="Pengaturan">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -2482,7 +2526,17 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
             render();
         });
 
-
+        // Ratio pills (mobile)
+        document.querySelectorAll(".ratio-pill").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".ratio-pill").forEach((b) => b.classList.remove("active"));
+                btn.classList.add("active");
+                aspectRatio = parseFloat(btn.dataset.val);
+                // sync select
+                document.getElementById("ratio-sel").value = btn.dataset.val;
+                render();
+            });
+        });
         // ── SETTINGS POPOVER (togel) ──────────────────────────────────────
         const settingsPopover = document.getElementById("settings-popover");
         const settingsBackdrop = document.getElementById("settings-backdrop");
