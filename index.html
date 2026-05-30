@@ -497,36 +497,24 @@
             align-self: flex-start;
         }
 
-        /* SWAP BAR */
-        #swap-bar {
+        /* CELL DRAG GHOST */
+        #drag-ghost {
+            position: fixed;
+            pointer-events: none;
+            z-index: 99999;
+            border-radius: 10px;
+            overflow: hidden;
+            opacity: 0.85;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.28);
+            transform: scale(1.06);
+            transition: transform 0.12s;
             display: none;
-            align-items: center;
-            gap: 7px;
-            background: #fff8ee;
-            border: 1.5px solid var(--accent);
-            border-radius: 11px;
-            padding: 7px 12px;
-            font-size: 12px;
-            color: #7a3800;
-            font-weight: 700;
-            flex-shrink: 0;
         }
-
-        #swap-bar.show {
-            display: flex;
-        }
-
-        #cancel-swap {
-            margin-left: auto;
-            font-size: 10px;
-            padding: 3px 9px;
-            border-radius: 7px;
-            border: 1.5px solid var(--accent);
-            background: transparent;
-            color: var(--accent);
-            cursor: pointer;
-            font-weight: 800;
-            font-family: inherit;
+        #drag-ghost img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         /* ACTION BUTTONS */
@@ -587,14 +575,17 @@
             cursor: pointer;
         }
 
-        .cell:hover {
-            box-shadow: inset 0 0 0 2.5px rgba(232, 99, 42, 0.7);
-            z-index: 5;
+        .cell:hover::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.18);
+            pointer-events: none;
+            z-index: 10;
         }
 
-        .cell.swap-source {
-            box-shadow: inset 0 0 0 3px var(--accent);
-            z-index: 15;
+        .cell:hover {
+            z-index: 5;
         }
 
         .cell.drag-over {
@@ -1027,7 +1018,61 @@
             }
         }
 
-        /* ── ZOOM MODAL ── */
+        /* ── DOWNLOAD TOAST ── */
+        #dl-toast {
+            position: fixed;
+            bottom: 24px;
+            right: 20px;
+            background: #fff;
+            border: 0.5px solid #e0e0de;
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            width: 220px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+            z-index: 99999;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: opacity 0.25s, transform 0.25s;
+        }
+        #dl-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+        #dl-toast-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        #dl-toast-icon svg { width: 16px; height: 16px; color: #fff; }
+        #dl-toast-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+        #dl-toast-sub {
+            font-size: 11px;
+            color: #888;
+            font-weight: 600;
+        }
+        @media (max-width: 700px) {
+            #dl-toast {
+                bottom: calc(env(safe-area-inset-bottom) + 80px);
+                right: 16px;
+                left: 16px;
+                width: auto;
+            }
+        }
         #zoom-modal {
             display: none;
             position: fixed;
@@ -1035,6 +1080,7 @@
             z-index: 10000;
             align-items: center;
             justify-content: center;
+            padding: 16px;
         }
 
         #zoom-modal.show {
@@ -1055,10 +1101,74 @@
             border: 1px solid #e0e0de;
             padding: 18px;
             width: min(88vw, 380px);
+            max-height: calc(100dvh - 32px);
             display: flex;
             flex-direction: column;
             gap: 12px;
             z-index: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        @media (max-width: 700px) {
+            .zoom-ctrl-row {
+                display: none;
+            }
+        }
+                padding: 0;
+            }
+
+            #zoom-box {
+                width: 100%;
+                max-width: 100%;
+                border-radius: 24px 24px 0 0;
+                max-height: 92dvh;
+                padding: 20px 16px calc(env(safe-area-inset-bottom) + 16px);
+            }
+
+            #zoom-box::before {
+                content: '';
+                display: block;
+                width: 36px;
+                height: 4px;
+                background: #d0d0ce;
+                border-radius: 2px;
+                margin: 0 auto 4px;
+                flex-shrink: 0;
+            }
+
+            #zoom-preview-wrap {
+                max-height: 45vh;
+                overflow: hidden;
+            }
+
+            #zoom-preview {
+                max-height: 45vh;
+            }
+
+            #zoom-img {
+                max-height: 45vh;
+                object-fit: cover;
+            }
+
+            #zoom-cancel-btn,
+            #zoom-apply-btn {
+                padding: 12px 20px;
+                font-size: 13px;
+                border-radius: 13px;
+            }
+
+            #zoom-apply-btn {
+                flex: 1;
+            }
+
+            #zoom-footer {
+                gap: 10px;
+            }
+
+            .zoom-ctrl-row input[type="range"] {
+                height: 28px;
+            }
         }
 
         #zoom-box h3 {
@@ -1377,16 +1487,7 @@
 
             <!-- CANVAS AREA -->
             <div class="canvas-area">
-                <!-- SWAP BAR -->
-                <div id="swap-bar">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2.5">
-                        <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" />
-                    </svg>
-                    Mode tukar — klik sel tujuan
-                    <button id="cancel-swap">✕ Batal</button>
-                </div>
-
+                <!-- DRAG GHOST -->
                 <div id="canvas-wrap" style="position: relative"></div>
 
                 <div class="action-row">
@@ -1475,7 +1576,7 @@
                 <line x1="11" y1="8" x2="11" y2="14" />
                 <line x1="8" y1="11" x2="14" y2="11" />
             </svg>
-            Zoom &amp; Crop
+            Zoom
         </div>
         <div class="ctx-item" id="ctx-replace">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1484,12 +1585,6 @@
                 <line x1="12" y1="3" x2="12" y2="15" />
             </svg>
             Ganti Foto
-        </div>
-        <div class="ctx-item" id="ctx-move">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" />
-            </svg>
-            Tukar Posisi
         </div>
         <div class="ctx-sep"></div>
         <div class="ctx-item danger" id="ctx-del">
@@ -1506,25 +1601,35 @@
     <div id="zoom-modal">
         <div id="zoom-backdrop"></div>
         <div id="zoom-box">
-            <h3>🔍 Zoom &amp; Crop</h3>
             <div id="zoom-preview-wrap">
                 <div id="zoom-preview">
                     <img id="zoom-img" src="" alt="" draggable="false" />
                 </div>
             </div>
-            <p id="zoom-hint">Scroll / pinch zoom · Seret untuk geser</p>
-            <div class="zoom-ctrl-row">
-                <label>Zoom</label>
-                <input type="range" id="zoom-slider" min="100" max="400" step="1" value="100" />
-                <span id="zoom-val-lbl">1×</span>
-                <button id="zoom-reset">Reset</button>
-            </div>
+
+
             <div id="zoom-footer">
                 <button id="zoom-cancel-btn">Batal</button>
-                <button id="zoom-apply-btn">✓ Terapkan</button>
+                <button id="zoom-apply-btn">Terapkan</button>
             </div>
         </div>
     </div>
+
+    <div id="dl-toast">
+        <div id="dl-toast-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+        </div>
+        <div>
+            <div id="dl-toast-title">Tersimpan!</div>
+            <div id="dl-toast-sub">kolase.png</div>
+        </div>
+    </div>
+
+    <div id="drag-ghost"><img id="drag-ghost-img" src="" alt="" /></div>
 
     <input type="file" id="upload-hidden" accept="image/*" multiple />
 
@@ -1762,7 +1867,6 @@
             aspectRatio = 1.4,
             bgColor = "#e0e0dc";
         let cells = [],
-            swapSource = null,
             ctxTarget = null;
         let panDrag = { active: false, moved: false };
 
@@ -2049,7 +2153,7 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
             .addEventListener("click", () => {
                 if (!confirm("Hapus semua foto?")) return;
                 cells.forEach((c) => (c.img = null));
-                cancelSwap();
+                render();
             });
 
         // ── INIT / RENDER ─────────────────────────────────────────────────
@@ -2101,7 +2205,7 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
             cw.innerHTML = "";
             rects.forEach((r, i) => {
                 const el = document.createElement("div");
-                el.className = "cell" + (swapSource === i ? " swap-source" : "");
+                el.className = "cell";
                 el.style.cssText = `left:${R(r.x)}px;top:${R(r.y)}px;width:${R(r.w)}px;height:${R(r.h)}px;border-radius:${radius}px;`;
                 el.dataset.idx = i;
                 if (cells[i]?.img) {
@@ -2124,55 +2228,127 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
                 }
                 if (cells[i]?.img && (cells[i].zoom || 1) > 1)
                     el.style.cursor = "grab";
+
+                // ── LONG PRESS → GHOST DRAG SWAP ──
+                let lpTimer = null, lpDragging = false, lpStartX = 0, lpStartY = 0;
+                const LONG_MS = 380, GHOST_SIZE = Math.min(r.w, r.h, 90);
+
+                function startLongPress(cx, cy) {
+                    if (!cells[i]?.img) return;
+                    lpStartX = cx; lpStartY = cy;
+                    lpTimer = setTimeout(() => {
+                        lpDragging = true;
+                        // show ghost
+                        const ghost = document.getElementById("drag-ghost");
+                        const ghostImg = document.getElementById("drag-ghost-img");
+                        ghostImg.src = cells[i].img;
+                        ghost.style.width = GHOST_SIZE + "px";
+                        ghost.style.height = GHOST_SIZE + "px";
+                        ghost.style.display = "block";
+                        moveGhost(cx, cy);
+                        // vibrate if supported
+                        if (navigator.vibrate) navigator.vibrate(40);
+                    }, LONG_MS);
+                }
+                function moveGhost(cx, cy) {
+                    const ghost = document.getElementById("drag-ghost");
+                    ghost.style.left = (cx - GHOST_SIZE / 2) + "px";
+                    ghost.style.top = (cy - GHOST_SIZE / 2) + "px";
+                }
+                function endLongPress(cx, cy) {
+                    clearTimeout(lpTimer);
+                    lpTimer = null;
+                    const ghost = document.getElementById("drag-ghost");
+                    ghost.style.display = "none";
+                    if (!lpDragging) { lpDragging = false; return; }
+                    lpDragging = false;
+                    // find target cell under pointer
+                    const cw = document.getElementById("canvas-wrap");
+                    const els = cw.querySelectorAll(".cell");
+                    let targetIdx = null;
+                    els.forEach(cel => {
+                        const rect = cel.getBoundingClientRect();
+                        if (cx >= rect.left && cx <= rect.right && cy >= rect.top && cy <= rect.bottom) {
+                            targetIdx = parseInt(cel.dataset.idx);
+                        }
+                    });
+                    els.forEach(cel => cel.classList.remove("drag-over"));
+                    if (targetIdx !== null && targetIdx !== i) {
+                        // swap full cell data
+                        const tmp = { ...cells[i] };
+                        cells[i] = { ...cells[targetIdx] };
+                        cells[targetIdx] = tmp;
+                        render();
+                    }
+                }
+
+                // mouse events
                 el.addEventListener("mousedown", (e) => {
                     const idx = parseInt(el.dataset.idx);
-                    if (
-                        !cells[idx]?.img ||
-                        (cells[idx].zoom || 1) <= 1 ||
-                        swapSource !== null
-                    )
-                        return;
-                    e.stopPropagation();
-                    e.preventDefault();
-                    startCellPan(e.clientX, e.clientY, idx, el, r);
-                });
-                el.addEventListener(
-                    "touchstart",
-                    (e) => {
-                        const idx = parseInt(el.dataset.idx);
-                        if (
-                            !cells[idx]?.img ||
-                            (cells[idx].zoom || 1) <= 1 ||
-                            swapSource !== null
-                        )
-                            return;
-                        if (e.touches.length === 1)
-                            startCellPan(
-                                e.touches[0].clientX,
-                                e.touches[0].clientY,
-                                idx,
-                                el,
-                                r,
-                            );
-                    },
-                    { passive: true },
-                );
-                el.addEventListener("click", (e) => {
-                    if (panDrag.moved) return;
-                    e.stopPropagation();
-                    const idx = parseInt(el.dataset.idx);
-                    if (swapSource !== null) {
-                        if (swapSource !== idx) {
-                            const t = cells[swapSource].img;
-                            cells[swapSource].img = cells[idx].img;
-                            cells[idx].img = t;
-                            const tz = cells[swapSource].zoom;
-                            cells[swapSource].zoom = cells[idx].zoom;
-                            cells[idx].zoom = tz;
-                        }
-                        cancelSwap();
+                    // if zoomed in, pan instead of drag
+                    if (cells[idx]?.img && (cells[idx].zoom || 1) > 1) {
+                        e.stopPropagation(); e.preventDefault();
+                        startCellPan(e.clientX, e.clientY, idx, el, r);
                         return;
                     }
+                    startLongPress(e.clientX, e.clientY);
+                });
+                window.addEventListener("mousemove", (e) => {
+                    if (lpTimer && (Math.abs(e.clientX - lpStartX) > 8 || Math.abs(e.clientY - lpStartY) > 8)) {
+                        clearTimeout(lpTimer); lpTimer = null;
+                    }
+                    if (!lpDragging) return;
+                    moveGhost(e.clientX, e.clientY);
+                    // highlight target
+                    const cw = document.getElementById("canvas-wrap");
+                    cw.querySelectorAll(".cell").forEach(cel => {
+                        const rect = cel.getBoundingClientRect();
+                        const over = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
+                        cel.classList.toggle("drag-over", over && parseInt(cel.dataset.idx) !== i);
+                    });
+                });
+                window.addEventListener("mouseup", (e) => {
+                    if (!lpTimer && !lpDragging) return;
+                    endLongPress(e.clientX, e.clientY);
+                });
+
+                // touch events
+                el.addEventListener("touchstart", (e) => {
+                    const idx = parseInt(el.dataset.idx);
+                    if (cells[idx]?.img && (cells[idx].zoom || 1) > 1 && e.touches.length === 1) {
+                        e.preventDefault();
+                        startCellPan(e.touches[0].clientX, e.touches[0].clientY, idx, el, r);
+                        return;
+                    }
+                    if (e.touches.length === 1)
+                        startLongPress(e.touches[0].clientX, e.touches[0].clientY);
+                }, { passive: false });
+
+                el.addEventListener("touchmove", (e) => {
+                    const tx = e.touches[0].clientX, ty = e.touches[0].clientY;
+                    if (lpTimer && (Math.abs(tx - lpStartX) > 8 || Math.abs(ty - lpStartY) > 8)) {
+                        clearTimeout(lpTimer); lpTimer = null;
+                    }
+                    if (!lpDragging) return;
+                    e.preventDefault();
+                    moveGhost(tx, ty);
+                    const cw = document.getElementById("canvas-wrap");
+                    cw.querySelectorAll(".cell").forEach(cel => {
+                        const rect = cel.getBoundingClientRect();
+                        const over = tx >= rect.left && tx <= rect.right && ty >= rect.top && ty <= rect.bottom;
+                        cel.classList.toggle("drag-over", over && parseInt(cel.dataset.idx) !== i);
+                    });
+                }, { passive: false });
+
+                el.addEventListener("touchend", (e) => {
+                    const t = e.changedTouches[0];
+                    endLongPress(t.clientX, t.clientY);
+                });
+
+                el.addEventListener("click", (e) => {
+                    if (panDrag.moved || lpDragging) return;
+                    e.stopPropagation();
+                    const idx = parseInt(el.dataset.idx);
                     if (cells[idx]?.img) openCtx(e, idx);
                     else {
                         ctxTarget = idx;
@@ -2247,15 +2423,17 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
                 onEnd();
             }
             function onTM(e) {
-                if (e.touches.length === 1)
+                if (e.touches.length === 1) {
+                    if (panDrag.moved) e.preventDefault();
                     onMove(e.touches[0].clientX, e.touches[0].clientY);
+                }
             }
             function onTE() {
                 onEnd();
             }
             window.addEventListener("mousemove", onMM);
             window.addEventListener("mouseup", onMU);
-            window.addEventListener("touchmove", onTM, { passive: true });
+            window.addEventListener("touchmove", onTM, { passive: false });
             window.addEventListener("touchend", onTE);
         }
 
@@ -2264,10 +2442,13 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
         function openCtx(e, idx) {
             ctxTarget = idx;
             ctxMenu.classList.add("show");
-            ctxMenu.style.left =
-                Math.min(e.clientX, window.innerWidth - 170) + "px";
-            ctxMenu.style.top =
-                Math.min(e.clientY, window.innerHeight - 160) + "px";
+            // Support both mouse and touch events
+            const clientX = e.clientX ?? (e.changedTouches?.[0]?.clientX ?? window.innerWidth / 2);
+            const clientY = e.clientY ?? (e.changedTouches?.[0]?.clientY ?? window.innerHeight / 2);
+            const menuH = ctxMenu.offsetHeight || 160;
+            const menuW = ctxMenu.offsetWidth || 170;
+            ctxMenu.style.left = Math.min(clientX, window.innerWidth - menuW - 8) + "px";
+            ctxMenu.style.top = Math.min(clientY, window.innerHeight - menuH - 8) + "px";
         }
         function closeCtx() {
             ctxMenu.classList.remove("show");
@@ -2281,14 +2462,6 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
             fileInput.removeAttribute("multiple");
             fileInput.click();
         });
-        document.getElementById("ctx-move").addEventListener("click", () => {
-            const i = ctxTarget;
-            closeCtx();
-            if (i === null) return;
-            swapSource = i;
-            document.getElementById("swap-bar").classList.add("show");
-            render();
-        });
         document.getElementById("ctx-del").addEventListener("click", () => {
             const i = ctxTarget;
             closeCtx();
@@ -2300,21 +2473,10 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
             if (!ctxMenu.contains(e.target)) closeCtx();
         });
 
-        function cancelSwap() {
-            swapSource = null;
-            document.getElementById("swap-bar").classList.remove("show");
-            render();
-        }
-        document
-            .getElementById("cancel-swap")
-            .addEventListener("click", cancelSwap);
-
         // ── ZOOM MODAL ────────────────────────────────────────────────────
         const zoomModal = document.getElementById("zoom-modal"),
             zoomPreview = document.getElementById("zoom-preview"),
-            zoomImg = document.getElementById("zoom-img"),
-            zoomSlider = document.getElementById("zoom-slider"),
-            zoomValLbl = document.getElementById("zoom-val-lbl");
+            zoomImg = document.getElementById("zoom-img");
         let zmIdx = null,
             zmZoom = 1,
             zmPanX = 0,
@@ -2323,8 +2485,6 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
             zmCellH = 1;
         function applyZoomPreview() {
             zoomImg.style.transform = cellTransform(zmZoom, zmPanX, zmPanY);
-            zoomSlider.value = Math.round(zmZoom * 100);
-            zoomValLbl.textContent = zmZoom.toFixed(2).replace(/\.?0+$/, "") + "×";
         }
         function openZoomModal(idx) {
             zmIdx = idx;
@@ -2337,7 +2497,10 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
                 r = rects[idx] || { w: 1, h: 1 };
             zmCellW = r.w;
             zmCellH = r.h;
-            zoomPreview.style.paddingBottom = ((r.h / r.w) * 100).toFixed(2) + "%";
+            // Cap padding-bottom at 75% to prevent modal overflow on tall-ratio cells
+            const rawPad = (r.h / r.w) * 100;
+            const cappedPad = Math.min(rawPad, 75);
+            zoomPreview.style.paddingBottom = cappedPad.toFixed(2) + "%";
             zoomPreview.style.height = "0";
             zoomImg.style.position = "absolute";
             zoomImg.style.inset = "0";
@@ -2369,18 +2532,6 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
         document
             .getElementById("zoom-backdrop")
             .addEventListener("click", () => zoomModal.classList.remove("show"));
-        document.getElementById("zoom-reset").addEventListener("click", () => {
-            zmZoom = 1;
-            zmPanX = 0;
-            zmPanY = 0;
-            applyZoomPreview();
-        });
-        zoomSlider.addEventListener("input", () => {
-            zmZoom = parseInt(zoomSlider.value) / 100;
-            zmPanX = clampPan(zmPanX);
-            zmPanY = clampPan(zmPanY);
-            applyZoomPreview();
-        });
         document.getElementById("zoom-preview-wrap").addEventListener(
             "wheel",
             (e) => {
@@ -2587,7 +2738,13 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
             render();
         });
 
-        // ── DOWNLOAD ──────────────────────────────────────────────────────
+        let dlToastTimer = null;
+        function showDlToast() {
+            const toast = document.getElementById('dl-toast');
+            clearTimeout(dlToastTimer);
+            toast.classList.add('show');
+            dlToastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+        }
         function doDownload() {
             const hasPhoto = cells.some(c => c.img);
             if (!hasPhoto) {
@@ -2615,6 +2772,7 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
                     a.href = cv.toDataURL("image/png");
                     a.click();
                     restoreBtns();
+                    showDlToast();
                 }
             };
             rects.forEach((r, i) => {
@@ -2684,6 +2842,14 @@ ${rects.map((r) => `<rect x="${(P + r.x).toFixed(1)}" y="${(P + r.y).toFixed(1)}
             }
         }
         document.getElementById("dl-btn").addEventListener("click", doDownload);
+        const topbarDlBtn = document.getElementById("topbar-dl-btn");
+        if (topbarDlBtn) topbarDlBtn.addEventListener("click", doDownload);
+        const topbarClrBtn = document.getElementById("topbar-clr-btn");
+        if (topbarClrBtn) topbarClrBtn.addEventListener("click", () => {
+            if (!confirm("Hapus semua foto?")) return;
+            cells.forEach((c) => (c.img = null));
+            cancelSwap();
+        });
 
         window.addEventListener("resize", () => render());
 
